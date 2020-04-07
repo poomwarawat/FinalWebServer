@@ -4,10 +4,8 @@
     header("Access-Control-Allow-Origin: *");
     $method = $_SERVER['REQUEST_METHOD'];
 
+    
     switch ($method) {
-        case 'GET':
-            echo "GET";
-            break;
         case 'POST':
             $name = $_POST["name"];
             $lastname = $_POST["lastname"];
@@ -17,17 +15,22 @@
             $city = $_POST["city"];
             $password = $_POST["password"];
             $repassword = $_POST["repassword"];
-            // echo $name;
+
             $valid = validate($name, $lastname, $birthday, $email, $address, $city, $password, $repassword);
-            if($valid == "success"){
-                $sql = "INSERT INTO `User` (`name`, `lastname`, `birthday`, `email`, `address`, `city`, `password`, `repassword`) VALUES('$name', '$lastname', '$birthday', '$email', '$address', '$city', '$password', '$repassword');";
-                mysqli_query($conn, $sql);
+            echo $valid;
+            if($valid == ""){
+                $sql = "SELECT email FROM User WHERE email = '$email';";
+                $result = mysqli_query($conn, $sql);
+                $result_check = mysqli_num_rows($result);
+
+                if($result_check > 0){
+                    echo "Email is already!";
+                }else{
+                    $password = md5($password);
+                    $sql = "INSERT INTO `User` (`name`, `lastname`, `birthday`, `email`, `address`, `city`, `password`) VALUES('$name', '$lastname', '$birthday', '$email', '$address', '$city', '$password');";
+                    mysqli_query($conn, $sql);
+                }
             }
-            // if($valid == 'success'){
-            //     $sql = "INSERT INTO `User` (`name`, `lastname`, `birthday`, `email`, `address`, `city`, `password`, `repassword`) 
-            //         VALUES ('$name', '$lastname', '$birthday', '$email', '$address', '$city', '$password', '$repassword');";
-            //     mysqli_query($conn, $sql);
-            // }  
         break;
     }
     // $data = $_POST['data'];
@@ -35,6 +38,7 @@
     //     echo "Success";
     // }
     function validate($name, $lastname, $birthday, $email, $address, $city, $password, $repassword){
+
         if(strlen($name) < 1){
             return "Wrong your name!";
         }
@@ -63,7 +67,7 @@
             return "Your password is not correct";
         }
         if($password == $repassword){
-            return "success";
+            return "";
         }
     }
     // $res = array("Success" => true, "message" => $data);
