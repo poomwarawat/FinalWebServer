@@ -4,7 +4,6 @@
     header("Access-Control-Allow-Origin: *");
     $method = $_SERVER['REQUEST_METHOD'];
 
-    
     switch ($method) {
         case 'POST':
             $name = $_POST["name"];
@@ -27,7 +26,8 @@
                     echo "Email is already!";
                 }else{
                     $password = md5($password);
-                    $sql = "INSERT INTO `User` (`name`, `lastname`, `birthday`, `email`, `address`, `city`, `password`) VALUES('$name', '$lastname', '$birthday', '$email', '$address', '$city', '$password');";
+                    $token = md5($email);
+                    $sql = "INSERT INTO `User` (`name`, `lastname`, `birthday`, `email`, `address`, `city`, `password`, `token`) VALUES('$name', '$lastname', '$birthday', '$email', '$address', '$city', '$password', '$token');";
                     mysqli_query($conn, $sql);
                 }
             }
@@ -60,7 +60,7 @@
         if(strlen($password) < 1){
             return "Your password must be 6 too!";
         }
-        if(strlen($repassword) < 1){
+        if(strlen($repassword) < 6){
             return "Your re-password must be 6 too!";
         }
         if($password != $repassword){

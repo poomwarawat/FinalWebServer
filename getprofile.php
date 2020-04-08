@@ -15,7 +15,9 @@
             if($result_check > 0){
                 while($row = mysqli_fetch_assoc($result)){
                     if($key == $row['token']){
-                        echo $row['email'];
+                        $res = array('email' => $row['email'], 'name' => $row['name'], 'lastname' => $row['lastname'],
+                        'birthday' => $row['birthday'], 'id' => $row['id'], 'address' => $row['address'], 'city' => $row['city']);
+                        echo json_encode($res);
                     }
                 }
             }

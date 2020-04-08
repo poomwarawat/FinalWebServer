@@ -19,16 +19,23 @@
                 while($row = mysqli_fetch_assoc($result)){
                     if((string)$row['email'] == $email){
                         if((string)$row['password'] == md5($password)){
-                            echo "success";
+                            $res = array("token" => $row['token']);
+                            echo json_encode($res);
                         }else if(strlen($password) > 1){
-                            echo "Wrong your password!";
+                            $res = array("err" => "Your password not correct!");
+                            echo json_encode($res);
                         }
+                    }else if(strlen($email) > 0){
+                        echo "Email not found";
                     }
                 }
             }else{
-                echo "Error";
+                echo "Email not found";
             }
-            echo $valid;
+            if($valid){
+                $res = array("err" => $valid);
+                echo json_encode($res);
+            }
             
         break;
     }
@@ -37,7 +44,7 @@
         if(strlen($email) < 1){
             return "Wrong your email!";
         }
-        if(strlen($password) < 1){
+        if(strlen($password) < 1 ){
             return "Wrong your password!";
         }
     }
