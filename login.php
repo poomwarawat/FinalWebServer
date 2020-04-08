@@ -16,27 +16,23 @@
             $result_check = mysqli_num_rows($result);
 
             if($result_check > 0){
+                $res = array();
                 while($row = mysqli_fetch_assoc($result)){
-                    if((string)$row['email'] == $email){
-                        if((string)$row['password'] == md5($password)){
-                            $res = array("token" => $row['token']);
-                            echo json_encode($res);
-                        }else if(strlen($password) > 1){
-                            $res = array("err" => "Your password not correct!");
-                            echo json_encode($res);
+                    // $res[] = array('email' => $row['email'], 'password' => $row['password']);
+                    if($email == (string)$row['email']){
+                        if(md5($password) == (string)$row['password']){
+                            $res[] = array('token' => $row['token']);
+                        }else{
+                            $res[] = array("err" => "Your password not correct!");
                         }
-                    }else if(strlen($email) > 0){
-                        echo "Email not found";
                     }
                 }
-            }else{
-                echo "Email not found";
+                $res[] = array('err' => "Email not found!");
             }
             if($valid){
-                $res = array("err" => $valid);
-                echo json_encode($res);
+                $res[] = array("err" => $valid);
             }
-            
+            echo json_encode($res[0]);
         break;
     }
     function validate($email, $password){
