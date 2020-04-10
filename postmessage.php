@@ -11,8 +11,9 @@
             $date = $_POST['date'];
             $name = $_POST['name'];
             $lastname = $_POST['lastname'];
+            $url = $_POST['url'];
 
-            $sql = "INSERT INTO `Post` (`email`, `data`, `date`, `name`, `lastname`) VALUES('$email', '$data', '$date', '$name', '$lastname');";
+            $sql = "INSERT INTO `Post` (`email`, `data`, `date`, `name`, `lastname`, `url`) VALUES('$email', '$data', '$date', '$name', '$lastname', '$url');";
             mysqli_query($conn, $sql);
             echo "success";
 

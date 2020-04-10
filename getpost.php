@@ -13,7 +13,9 @@
             if($result_check > 0){
                 $res = array();
                 while($row = mysqli_fetch_assoc($result)){   
-                    $res[] = array('data' => $row['data'], 'date' => $row['date'], 'name' => $row['name'], 'lastname' => $row['lastname'], 'id' => $row['id']);                 
+                    $res[] = array('data' => $row['data'], 'date' => $row['date'], 
+                    'name' => $row['name'], 'lastname' => $row['lastname'], 
+                    'id' => $row['id'], 'url' => $row['url']);                 
                 }
                 echo json_encode($res);
             }
@@ -28,7 +30,9 @@
                 $res = array();
                 while($row = mysqli_fetch_assoc($result)){
                     if($email == (string)$row['email']){
-                        $res[] = array('data' => $row['data'], 'date' => $row['date'], 'name' => $row['name'], 'lastname' => $row['lastname'], 'id' => $row['id']);                 
+                        $res[] = array('data' => $row['data'], 'date' => $row['date'], 
+                        'name' => $row['name'], 'lastname' => $row['lastname'], 
+                        'id' => $row['id'], 'url' => $row['url']);                 
                     }
                 }
                 echo json_encode($res);
